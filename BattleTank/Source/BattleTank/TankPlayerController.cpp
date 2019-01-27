@@ -61,11 +61,10 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& hitLocation) {
 		
 
 		if(GetVectorHitLocation(direction, hitLocation)){
-    	//UE_LOG(LogTemp, Warning, TEXT("Component hit %s"), *hitLocation.ToString())
-			GetTankComponent()->GetAimingComponent()->AimAt(hitLocation);
+    	    GetTankComponent()->GetAimingComponent()->AimAt(hitLocation);
 		}
-		else
-		UE_LOG(LogTemp, Warning, TEXT("No hit"))
+		//else
+		//UE_LOG(LogTemp, Warning, TEXT("No hit"))
 
 
 	}
@@ -98,11 +97,15 @@ bool ATankPlayerController::GetVectorHitLocation(FVector LookDirection,FVector& 
 		EndLocation, //end
 		ECollisionChannel::ECC_Visibility)){
 		hitLocation= hitresult.Location;
-    	return true;
+    
+		UE_LOG(LogTemp, Warning, TEXT("Component hit %s"), *hitresult.GetActor()->GetName())
+
+		return true;
 	}
 	else {
 		hitLocation = FVector(0.f);
 		return false;
 	}
+
 
 }

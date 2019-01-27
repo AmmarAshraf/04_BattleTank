@@ -2,6 +2,7 @@
 
 #include "TankAimingComponent.h"
 #include "TankBarrel.h"
+#include "Tank.h"
 
 // Sets default values for this component's properties
 UTankAimingComponent::UTankAimingComponent()
@@ -54,10 +55,12 @@ void UTankAimingComponent::AimAt(FVector hitVector)
 		//UTankAimingComponent();
 		auto UnitVector = outTossVelocity.GetSafeNormal();
 		auto OwnerName = GetOwner()->GetName();
-		UE_LOG(LogTemp, Warning, TEXT("%s Component hit barrel %s"), *OwnerName, *UnitVector.ToString())
-		barrel->elevate(10);
+		//UE_LOG(LogTemp, Warning, TEXT("%s Component hit barrel %s"), *OwnerName, *UnitVector.ToString())
+			//barrel->elevate(1);
+		moveBarrel(hitVector);
 	}
 	else {
+		if(Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn())== Cast<ATank>(GetOwner()))
 		 UE_LOG(LogTemp, Warning, TEXT("No aiming solution found"))
 	}
 	
@@ -70,8 +73,10 @@ void UTankAimingComponent::setAimingBarrelComponenet(UTankBarrel * barrelToSetup
 }
 
 void UTankAimingComponent::moveBarrel(FVector aimTarget) {
-	
-	//auto RotationDifference = aimTarget.Rotation() - barrel->GetForwardVector().Rotation();
-    //barrel->
+
+	if (Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn()) == Cast<ATank>(GetOwner())) {
+	auto RotationDifference = aimTarget.Rotation() - barrel->GetForwardVector().Rotation();
+	barrel->elevate(RotationDifference.Pitch);
+    }
 
 }

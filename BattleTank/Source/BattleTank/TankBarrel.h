@@ -18,7 +18,7 @@ public :
 	void elevate(float ElevatePerSeconds);
 
 	UPROPERTY(EditAnyWhere, Category=Setup)
-	float barrelDegrees;
+	float barrelDegrees=1;
 
 	UPROPERTY(EditAnyWhere, Category = Setup)
 	float maxElevation=40;
