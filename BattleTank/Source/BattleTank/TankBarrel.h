@@ -21,10 +21,10 @@ public :
 	float barrelDegrees;
 
 	UPROPERTY(EditAnyWhere, Category = Setup)
-	float maxElevation;
+	float maxElevation=40;
 
 	UPROPERTY(EditAnyWhere, Category = Setup)
-	float minElevation;
+	float minElevation=20;
 
 
 };

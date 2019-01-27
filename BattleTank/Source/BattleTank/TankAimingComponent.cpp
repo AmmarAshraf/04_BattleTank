@@ -36,26 +36,31 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 void UTankAimingComponent::AimAt(FVector hitVector)
 {
 
-	//FVector location=barrel->GetSocketLocation(FName("LaunchPoint"));
-	//FVector outTossVelocity=FVector(0);
+	FVector location=barrel->GetSocketLocation(FName("LaunchPoint"));
+	FVector outTossVelocity=FVector(0);
+	
+	bool ret= UGameplayStatics::SuggestProjectileVelocity(
+		this,
+		outTossVelocity,
+		location,
+		hitVector,
+		launchSpeed,
+		0,0,false,
+		ESuggestProjVelocityTraceOption::DoNotTrace
+	);
 
-	//
-	//bool ret= UGameplayStatics::SuggestProjectileVelocity(
-	//	this,
-	//	outTossVelocity,
-	//	location,
-	//	hitVector,
-	//	launchSpeed,
-	//	ESuggestProjVelocityTraceOption::DoNotTrace
-	//);
+	if (ret) {
 
-	//if (ret) {
-
-	//	//UTankAimingComponent();
-	//	auto UnitVector = outTossVelocity.GetSafeNormal();
-	//	auto OwnerName = GetOwner()->GetName();
-	//	UE_LOG(LogTemp, Warning, TEXT("%s Component hit barrel %s"), *OwnerName, *UnitVector.ToString())
-	//}
+		//UTankAimingComponent();
+		auto UnitVector = outTossVelocity.GetSafeNormal();
+		auto OwnerName = GetOwner()->GetName();
+		UE_LOG(LogTemp, Warning, TEXT("%s Component hit barrel %s"), *OwnerName, *UnitVector.ToString())
+		barrel->elevate(10);
+	}
+	else {
+		 UE_LOG(LogTemp, Warning, TEXT("No aiming solution found"))
+	}
+	
 }
 
 void UTankAimingComponent::setAimingBarrelComponenet(UTankBarrel * barrelToSetup, float launchSpeedToSetup)
