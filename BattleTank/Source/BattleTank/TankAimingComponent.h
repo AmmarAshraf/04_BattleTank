@@ -2,11 +2,13 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
+#include "Engine.h"
 #include "Components/ActorComponent.h"
+
 #include "TankAimingComponent.generated.h"
 
-
+class UTankBarrel;
+//Hold barrel properties and elevate methods
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class BATTLETANK_API UTankAimingComponent : public UActorComponent
 {
@@ -16,11 +18,15 @@ public:
 	// Sets default values for this component's properties
 	UTankAimingComponent();
 	void AimAt(FVector hitVector);
+	UFUNCTION(BlueprintCallable, Category = Setup)
+	void setAimingBarrelComponenet(UTankBarrel* barrelToSetup, float launchSpeed);
+	void moveBarrel(FVector aimTarget);
 
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
-    
+	UTankBarrel * barrel=nullptr;
+	float launchSpeed;
 public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;

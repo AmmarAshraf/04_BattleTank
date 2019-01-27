@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TankAimingComponent.h"
+#include "TankBarrel.h"
 
 // Sets default values for this component's properties
 UTankAimingComponent::UTankAimingComponent()
@@ -35,6 +36,37 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 void UTankAimingComponent::AimAt(FVector hitVector)
 {
 
-	UE_LOG(LogTemp, Warning, TEXT("%s Component hit %s"), *GetName(), *hitVector.ToString())
+	//FVector location=barrel->GetSocketLocation(FName("LaunchPoint"));
+	//FVector outTossVelocity=FVector(0);
+
+	//
+	//bool ret= UGameplayStatics::SuggestProjectileVelocity(
+	//	this,
+	//	outTossVelocity,
+	//	location,
+	//	hitVector,
+	//	launchSpeed,
+	//	ESuggestProjVelocityTraceOption::DoNotTrace
+	//);
+
+	//if (ret) {
+
+	//	//UTankAimingComponent();
+	//	auto UnitVector = outTossVelocity.GetSafeNormal();
+	//	auto OwnerName = GetOwner()->GetName();
+	//	UE_LOG(LogTemp, Warning, TEXT("%s Component hit barrel %s"), *OwnerName, *UnitVector.ToString())
+	//}
+}
+
+void UTankAimingComponent::setAimingBarrelComponenet(UTankBarrel * barrelToSetup, float launchSpeedToSetup)
+{
+	barrel = barrelToSetup;
+	launchSpeed = launchSpeedToSetup;
+}
+
+void UTankAimingComponent::moveBarrel(FVector aimTarget) {
+	
+	//auto RotationDifference = aimTarget.Rotation() - barrel->GetForwardVector().Rotation();
+    //barrel->
 
 }

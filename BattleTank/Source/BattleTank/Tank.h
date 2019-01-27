@@ -9,6 +9,8 @@
 #include "Engine.h"
 #include "Tank.generated.h"
 
+class UTankBarrel;
+
 UCLASS()
 class BATTLETANK_API ATank : public APawn
 {
@@ -32,5 +34,10 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	UTankAimingComponent* GetAimingComponent();
+	
+	UFUNCTION(BlueprintCallable, Category = Setup)
+	void setAimingBarrelComponenet(UTankBarrel* barrelToSetup);
 
+	UPROPERTY(BlueprintReadOnly)
+		float launchSpeed = 100000; //km/s 
 };
