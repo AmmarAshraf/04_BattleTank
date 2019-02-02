@@ -39,6 +39,11 @@ void ATank::setAimingBarrelComponenet(UTankBarrel * barrelToSetup)
 	GetAimingComponent()->setAimingBarrelComponenet(barrelToSetup, launchSpeed);
 }
 
+void ATank::setAimingTurretComponenet(UTankTurret * turretSetup)
+{
+	GetAimingComponent()->setAimingTurretComponenet(turretSetup);
+}
+
 
 
 

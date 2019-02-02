@@ -36,7 +36,7 @@ void ATankPlayerController::AimingTowardsCrosshair() {
 
 	if (GetTankComponent() != nullptr) {
 
-		FVector hitLocation;
+		FHitResult hitLocation;
 
 		GetSightRayHitLocation(hitLocation);
 		
@@ -46,7 +46,7 @@ void ATankPlayerController::AimingTowardsCrosshair() {
 	}
 }
 
-bool ATankPlayerController::GetSightRayHitLocation(FVector& hitLocation) {
+bool ATankPlayerController::GetSightRayHitLocation(FHitResult hitLocation) {
 
 	int32 SizeX;
 	int32 SizeY;
@@ -61,7 +61,8 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& hitLocation) {
 		
 
 		if(GetVectorHitLocation(direction, hitLocation)){
-    	    GetTankComponent()->GetAimingComponent()->AimAt(hitLocation);
+			//UE_LOG(LogTemp, Warning, TEXT("Enter Dragon %s"),*hitLocation.Location.ToString())
+    	    
 		}
 		//else
 		//UE_LOG(LogTemp, Warning, TEXT("No hit"))
@@ -82,28 +83,34 @@ bool ATankPlayerController::GetCameraDirection(FVector CrossHairScreenLocation, 
 	
 }
 
-bool ATankPlayerController::GetVectorHitLocation(FVector LookDirection,FVector& hitLocation) {
+bool ATankPlayerController::GetVectorHitLocation(FVector LookDirection, FHitResult hitresult) {
 
 
 	auto CameraLocation= PlayerCameraManager->GetCameraLocation();
 
 	auto EndLocation = (CameraLocation + (LookDirection * LineTraceRange));
 
-	FHitResult hitresult;
 
 	if(GetWorld()->LineTraceSingleByChannel(
 		OUT hitresult,        //result
 		CameraLocation,        //start
 		EndLocation, //end
 		ECollisionChannel::ECC_Visibility)){
-		hitLocation= hitresult.Location;
     
-		UE_LOG(LogTemp, Warning, TEXT("Component hit %s"), *hitresult.GetActor()->GetName())
-
-		return true;
+		if(hitresult.GetActor()->GetName().Contains("Tank_Bp")){
+		if (!hitresult.GetActor()->GetName().Contains("Tank_Bp_C_0")) {
+			
+				GetTankComponent()->GetAimingComponent()->AimAt(hitresult);
+				return true;
+		}
+		else {
+			return false;
+		}}
+		else {
+			return false;
+		}
 	}
 	else {
-		hitLocation = FVector(0.f);
 		return false;
 	}
 

@@ -11,7 +11,7 @@
 #include "Tank.generated.h"
 
 class UTankBarrel;
-
+class UTankTurret;
 
 UCLASS()
 class BATTLETANK_API ATank : public APawn
@@ -37,6 +37,9 @@ public:
 	
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void setAimingBarrelComponenet(UTankBarrel* barrelToSetup);
+
+	UFUNCTION(BlueprintCallable, Category = Setup)
+		void setAimingTurretComponenet(UTankTurret* turretSetup);
 
 	UPROPERTY(BlueprintReadOnly)
 		float launchSpeed = 100000; //km/s 

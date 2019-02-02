@@ -21,7 +21,7 @@ private:
 	//starting moving barrel to shot would hit where crosshair intersect world
 	void AimingTowardsCrosshair();
 	
-	bool GetSightRayHitLocation(FVector& hitLocation);
+	bool GetSightRayHitLocation(FHitResult hitresult);
 
 public:
 	virtual void Tick(float DeltaTime) override;
@@ -37,5 +37,5 @@ public:
 
 	bool GetCameraDirection(FVector CrossHairScreenLocation, FVector &CameraDirection);
 
-	bool GetVectorHitLocation(FVector LookDirection, FVector& hitLocation);
+	bool GetVectorHitLocation(FVector LookDirection, FHitResult hitresult);
 };

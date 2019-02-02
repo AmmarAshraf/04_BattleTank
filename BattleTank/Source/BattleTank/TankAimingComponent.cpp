@@ -2,6 +2,7 @@
 
 #include "TankAimingComponent.h"
 #include "TankBarrel.h"
+#include "TankTurret.h"
 #include "Tank.h"
 
 // Sets default values for this component's properties
@@ -34,17 +35,17 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 }
 
 
-void UTankAimingComponent::AimAt(FVector hitVector)
+void UTankAimingComponent::AimAt(FHitResult hitVector)
 {
 
 	FVector location=barrel->GetSocketLocation(FName("LaunchPoint"));
 	FVector outTossVelocity=FVector(0);
 	
 	bool ret= UGameplayStatics::SuggestProjectileVelocity(
-		this,
+		GetWorld(),
 		outTossVelocity,
 		location,
-		hitVector,
+		hitVector.Location,
 		launchSpeed,
 		0,0,false,
 		ESuggestProjVelocityTraceOption::DoNotTrace
@@ -52,12 +53,15 @@ void UTankAimingComponent::AimAt(FVector hitVector)
 
 	if (ret) {
 
-		//UTankAimingComponent();
 		auto UnitVector = outTossVelocity.GetSafeNormal();
 		auto OwnerName = GetOwner()->GetName();
-		//UE_LOG(LogTemp, Warning, TEXT("%s Component hit barrel %s"), *OwnerName, *UnitVector.ToString())
-			//barrel->elevate(1);
-		moveBarrel(hitVector);
+
+		auto hitName = hitVector.GetActor() != nullptr ? hitVector.GetActor()->GetName() : "";
+
+		UE_LOG(LogTemp, Warning, TEXT("Toss Velocty %s Hit Compnenet %s"), *UnitVector.ToString(),*hitVector.Location.ToString(),*hitName)
+
+		moveBarrel(hitVector.Location);
+	
 	}
 	else {
 		if(Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn())== Cast<ATank>(GetOwner()))
@@ -72,11 +76,15 @@ void UTankAimingComponent::setAimingBarrelComponenet(UTankBarrel * barrelToSetup
 	launchSpeed = launchSpeedToSetup;
 }
 
+void UTankAimingComponent::setAimingTurretComponenet(UTankTurret * turretToSetup)
+{
+	turret = turretToSetup;
+}
+
 void UTankAimingComponent::moveBarrel(FVector aimTarget) {
 
-	if (Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn()) == Cast<ATank>(GetOwner())) {
-	auto RotationDifference = aimTarget.Rotation() - barrel->GetForwardVector().Rotation();
+	auto RotationDifference =  aimTarget.Rotation()- barrel->GetForwardVector().Rotation();
 	barrel->elevate(RotationDifference.Pitch);
-    }
+	turret->moveTurret(RotationDifference.Yaw);
 
 }
