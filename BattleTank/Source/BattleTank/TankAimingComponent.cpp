@@ -70,6 +70,37 @@ void UTankAimingComponent::AimAt(FHitResult hitVector)
 	
 }
 
+void UTankAimingComponent::AIAimAt(FVector PlayerLocation)
+{
+
+	FVector location = barrel->GetSocketLocation(FName("LaunchPoint"));
+	FVector outTossVelocity = FVector(0);
+
+	bool ret = UGameplayStatics::SuggestProjectileVelocity(
+		GetWorld(),
+		outTossVelocity,
+		PlayerLocation,
+		location,
+		launchSpeed,
+		0, 0, false,
+		ESuggestProjVelocityTraceOption::DoNotTrace
+	);
+
+	if (ret) {
+
+		auto UnitVector = outTossVelocity.GetSafeNormal();
+		auto OwnerName = GetOwner()->GetName();
+
+		moveBarrel(PlayerLocation);
+
+	}
+	else {
+		if (Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn()) == Cast<ATank>(GetOwner()))
+			UE_LOG(LogTemp, Warning, TEXT("No aiming solution found"))
+	}
+
+}
+
 void UTankAimingComponent::setAimingBarrelComponenet(UTankBarrel * barrelToSetup, float launchSpeedToSetup)
 {
 	barrel = barrelToSetup;

@@ -3,40 +3,17 @@
 #include "TankAIController.h"
 #include "Tank.h"
 
-ATank* ATankAIController::GetTankComponent() const {
 
-	return Cast<ATank>(GetPawn());
-
-}
-
-ATank* ATankAIController::GetPlayerTankComponent() const {
-
-	auto playerPawn = GetWorld()->GetFirstPlayerController()->GetPawn();
-
-	if (playerPawn == nullptr)
-		return nullptr;
-	else
-	return Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
-
+ATankAIController::ATankAIController()
+{
+	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	PrimaryActorTick.bCanEverTick = true;
 }
 
 void ATankAIController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	if (GetTankComponent() == NULL) {
-		UE_LOG(LogTemp, Warning, TEXT("AI Tank component not found"))
-	}
-	else {
-		UE_LOG(LogTemp, Warning, TEXT("AI Tank component found"))
-	}
-
-	if (GetPlayerTankComponent() == NULL) {
-		UE_LOG(LogTemp, Warning, TEXT("You have not been found"))
-	}
-	else {
-		UE_LOG(LogTemp, Warning, TEXT("you have been found"))
-	}
 
 }
 
@@ -45,6 +22,18 @@ void ATankAIController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	
-	//GetPlayerTankComponent()->GetAimingComponent()->AimAt(GetPlayerTankComponent()->GetActorLocation());
+	UE_LOG(LogTemp, Warning, TEXT("Keep firing"))
+	
+	ATank* thisTank= Cast<ATank>(GetPawn());
 
+	auto playerPawn = GetWorld()->GetFirstPlayerController()->GetPawn();
+
+	if (playerPawn != nullptr && thisTank != nullptr){
+		 ATank* playerTank= Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
+
+		 thisTank->GetAimingComponent()->AIAimAt(playerTank->GetActorLocation());
+	
+		 thisTank->Fire();
+	
+	}
 }

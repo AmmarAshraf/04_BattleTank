@@ -46,11 +46,17 @@ public:
 		void Fire();
 
 	UPROPERTY(BlueprintReadOnly)
-		float launchSpeed = 100000; //km/s 
+		float launchSpeed = 4000; //km/s 
 
 	UPROPERTY(EditAnyWhere, Category = Setup)
 		TSubclassOf<AProjectile> projectile;
+
+	UPROPERTY(EditAnyWhere, Category = Setup)
+	float fireDelay =3;
+
 private:
 	UTankBarrel* barrel;
-
+	bool isBarrelReloaded;
+	double lastTime;
+	
 };

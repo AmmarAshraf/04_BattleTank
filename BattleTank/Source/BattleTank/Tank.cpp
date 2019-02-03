@@ -47,13 +47,17 @@ void ATank::setAimingTurretComponenet(UTankTurret * turretSetup)
 
 void ATank::Fire() {
 	
+	if((FPlatformTime::Seconds() - lastTime)> fireDelay){
+	
+	lastTime = FPlatformTime::Seconds();
+	
 	auto socket= barrel->GetSocketByName(FName("LaunchPoint"));
 	auto location = barrel->GetSocketLocation(FName("LaunchPoint"));
 	auto rotation = barrel->GetSocketRotation(FName("LaunchPoint"));
 	  
 	auto spawnedProjectile=GetWorld()->SpawnActor<AProjectile>(projectile, location,rotation, FActorSpawnParameters());
 	spawnedProjectile->LaunchProjectile(launchSpeed);
-
+	}
 }
 
 

@@ -19,6 +19,8 @@ public:
 	// Sets default values for this component's properties
 	UTankAimingComponent();
 	void AimAt(FHitResult hitVector);
+
+	void AIAimAt(FVector vector);
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void setAimingBarrelComponenet(UTankBarrel* barrelToSetup, float launchSpeed);
 	UFUNCTION(BlueprintCallable, Category = Setup)
