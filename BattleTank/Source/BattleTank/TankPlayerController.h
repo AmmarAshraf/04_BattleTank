@@ -26,13 +26,13 @@ private:
 public:
 	virtual void Tick(float DeltaTime) override;
 	
-	UPROPERTY(EditAnyWhere)
+	UPROPERTY(EditDefaultsOnly)
 	float CrossHairXLocation=0.5;
 
-	UPROPERTY(EditAnyWhere)
+	UPROPERTY(EditDefaultsOnly)
 	float CrossHairYLocation=0.33;
 
-	UPROPERTY(EditAnyWhere)
+	UPROPERTY(EditDefaultsOnly)
 	float LineTraceRange = 1000000;
 
 	bool GetCameraDirection(FVector CrossHairScreenLocation, FVector &CameraDirection);

@@ -27,7 +27,7 @@ public:
 	
 	void moveTurret(float ElevatePerSeconds);
 
-	UPROPERTY(EditAnyWhere, Category = Setup)
+	UPROPERTY(EditDefaultsOnly, Category = Setup)
 		float barrelDegrees = 1;
 		
 };

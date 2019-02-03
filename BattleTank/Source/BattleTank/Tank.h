@@ -45,13 +45,13 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Setup)
 		void Fire();
 
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(EditDefaultsOnly, Category = Setup)
 		float launchSpeed = 4000; //km/s 
 
-	UPROPERTY(EditAnyWhere, Category = Setup)
+	UPROPERTY(EditDefaultsOnly, Category = Setup)
 		TSubclassOf<AProjectile> projectile;
 
-	UPROPERTY(EditAnyWhere, Category = Setup)
+	UPROPERTY(EditDefaultsOnly, Category = Setup)
 	float fireDelay =3;
 
 private:
