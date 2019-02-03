@@ -50,10 +50,10 @@ void ATank::Fire() {
 	auto socket= barrel->GetSocketByName(FName("LaunchPoint"));
 	auto location = barrel->GetSocketLocation(FName("LaunchPoint"));
 	auto rotation = barrel->GetSocketRotation(FName("LaunchPoint"));
+	  
+	auto spawnedProjectile=GetWorld()->SpawnActor<AProjectile>(projectile, location,rotation, FActorSpawnParameters());
+	spawnedProjectile->LaunchProjectile(launchSpeed);
 
-	UE_LOG(LogTemp, Warning, TEXT("Projectile spawned location %s rotation %s"),*location.ToString(),*rotation.ToString())
-
-	GetWorld()->SpawnActor<AProjectile>(projectile, location,rotation, FActorSpawnParameters());
 }
 
 
