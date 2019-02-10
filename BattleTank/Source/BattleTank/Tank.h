@@ -12,7 +12,9 @@
 
 class UTankBarrel;
 class UTankTurret;
+class UTankTracks;
 class AProjectile;
+class UTankAIMovment;
 
 UCLASS()
 class BATTLETANK_API ATank : public APawn
@@ -43,6 +45,9 @@ public:
 		void setAimingTurretComponenet(UTankTurret* turretSetup);
 
 	UFUNCTION(BlueprintCallable, Category = Setup)
+		void setTankTrackComponenet(UTankTracks* left, UTankTracks* right);
+
+	UFUNCTION(BlueprintCallable, Category = Setup)
 		void Fire();
 
 	UPROPERTY(EditDefaultsOnly, Category = Setup)
@@ -56,6 +61,8 @@ public:
 
 private:
 	UTankBarrel* barrel;
+	UTankTracks* leftTrack;
+	UTankTracks* rightTrack;
 	bool isBarrelReloaded;
 	double lastTime;
 	

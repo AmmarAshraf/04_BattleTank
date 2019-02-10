@@ -14,8 +14,7 @@ void UTankBarrel::elevate(float relativeSpeed) {
 
 	SetRelativeRotation(FRotator(elevation,0,0));
 
-	//if(GetOwner()->GetName().Compare("Tank_Bp_C_0")==0)
-	UE_LOG(LogTemp, Warning, TEXT("%s owner:Elevation %f"), *GetOwner()->GetName(),rawElevation)
+	//UE_LOG(LogTemp, Warning, TEXT("%s owner:Elevation %f"), *GetOwner()->GetName(),rawElevation)
 
 
 }

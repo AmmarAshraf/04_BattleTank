@@ -3,6 +3,7 @@
 #include "Tank.h"
 #include "TankBarrel.h"
 #include "Projectile.h"
+#include "TankAIMovment.h"
 
 // Sets default values
 ATank::ATank()
@@ -10,7 +11,7 @@ ATank::ATank()
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	utankAimingCompnent = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"));
-
+	
 }
 
 
@@ -45,6 +46,12 @@ void ATank::setAimingTurretComponenet(UTankTurret * turretSetup)
 	GetAimingComponent()->setAimingTurretComponenet(turretSetup);
 }
 
+void ATank::setTankTrackComponenet(UTankTracks* leftTrackSetup, UTankTracks* rightTrackSetup) {
+	leftTrack = leftTrackSetup;
+	rightTrack = rightTrackSetup;
+}
+
+
 void ATank::Fire() {
 	
 	if((FPlatformTime::Seconds() - lastTime)> fireDelay){
@@ -59,6 +66,8 @@ void ATank::Fire() {
 	spawnedProjectile->LaunchProjectile(launchSpeed);
 	}
 }
+
+
 
 
 

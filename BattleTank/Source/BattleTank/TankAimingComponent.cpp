@@ -58,7 +58,7 @@ void UTankAimingComponent::AimAt(FHitResult hitVector)
 
 		auto hitName = hitVector.GetActor() != nullptr ? hitVector.GetActor()->GetName() : "";
 
-		UE_LOG(LogTemp, Warning, TEXT("Toss Velocty %s Hit Compnenet %s"), *UnitVector.ToString(),*hitVector.Location.ToString(),*hitName)
+		//UE_LOG(LogTemp, Warning, TEXT("Toss Velocty %s Hit Compnenet %s"), *UnitVector.ToString(),*hitVector.Location.ToString(),*hitName)
 
 		moveBarrel(hitVector.Location);
 	

@@ -32,7 +32,6 @@ void UTankTurret::TickComponent(float DeltaTime, ELevelTick TickType, FActorComp
 }
 
 void UTankTurret::moveTurret(float relativeSpeed) {
-	//relativeSpeed = FMath::Clamp<float>(relativeSpeed, 0,360);
 
 	relativeSpeed = FMath::Clamp<float>(relativeSpeed, -1, 1);
 
@@ -44,6 +43,6 @@ void UTankTurret::moveTurret(float relativeSpeed) {
 
 	SetRelativeRotation(FRotator(0, elevation, 0));
 
-    UE_LOG(LogTemp, Warning, TEXT("%s owner:Rotation %f"), *GetOwner()->GetName(), elevation)
+    //UE_LOG(LogTemp, Warning, TEXT("%s owner:Rotation %f"), *GetOwner()->GetName(), elevation)
 }
 
