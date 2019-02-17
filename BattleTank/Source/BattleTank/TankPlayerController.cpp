@@ -63,7 +63,7 @@ bool ATankPlayerController::GetSightRayHitLocation(FHitResult hitLocation) {
     	    
 		}
 		//else
-		UE_LOG(LogTemp, Warning, TEXT("No hit"))
+		//UE_LOG(LogTemp, Warning, TEXT("No hit"))
 
 	}
 	
