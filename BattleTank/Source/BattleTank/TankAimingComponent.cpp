@@ -41,7 +41,7 @@ void UTankAimingComponent::AimAt(FHitResult hitVector)
 
 	auto hitName = hitVector.GetActor() != nullptr ? hitVector.GetActor()->GetName() : "";
 
-	UE_LOG(LogTemp, Warning, TEXT(" Hit Compnenet %s Name %s"), *hitVector.Location.ToString(), *hitName)
+	//UE_LOG(LogTemp, Warning, TEXT(" Hit Compnenet %s Name %s"), *hitVector.Location.ToString(), *hitName)
 
 	FVector location=barrel->GetSocketLocation(FName("LaunchPoint"));
 	FVector outTossVelocity=FVector(0);
