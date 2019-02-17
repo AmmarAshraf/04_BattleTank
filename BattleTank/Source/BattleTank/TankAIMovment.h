@@ -36,13 +36,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 		void DragLeft(float data);
 
-protected:
-	// Called when the game starts
-	virtual void RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed) override;
-
-
 private:
 	UTankTracks* leftTankTrack;
 	UTankTracks* rightTankTrack;
+	virtual void RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed) override;
 
 };

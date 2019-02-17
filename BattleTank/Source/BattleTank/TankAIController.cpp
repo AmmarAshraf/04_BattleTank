@@ -22,7 +22,15 @@ void ATankAIController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	
-	//UE_LOG(LogTemp, Warning, TEXT("Keep firing"))
+	/*
+	auto PlayerTank = GetWorld()->GetFirstPlayerController()->GetPawn();
+	auto ControlledTank = GetPawn();
+
+	if (!(PlayerTank && ControlledTank)) { return; }
+
+	// Move towards the player
+	MoveToActor(PlayerTank, AcceptanceRadius); // TODO check radius is in cm
+	*/
 	
 	ATank* thisTank= Cast<ATank>(GetPawn());
 
