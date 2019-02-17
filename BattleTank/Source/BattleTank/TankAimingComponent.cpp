@@ -41,8 +41,6 @@ void UTankAimingComponent::AimAt(FHitResult hitVector)
 
 	auto hitName = hitVector.GetActor() != nullptr ? hitVector.GetActor()->GetName() : "";
 
-	//UE_LOG(LogTemp, Warning, TEXT(" Hit Compnenet %s Name %s"), *hitVector.Location.ToString(), *hitName)
-
 	FVector location=barrel->GetSocketLocation(FName("LaunchPoint"));
 	FVector outTossVelocity=FVector(0);
 	
@@ -63,8 +61,6 @@ void UTankAimingComponent::AimAt(FHitResult hitVector)
 
 		auto hitName = hitVector.GetActor() != nullptr ? hitVector.GetActor()->GetName() : "";
 
-		//UE_LOG(LogTemp, Warning, TEXT("Toss Velocty %s Hit Compnenet %s Name %s"), *outTossVelocity.ToString(),*UnitVector.ToString(),*hitName)
-
 		moveBarrel(UnitVector);
 	
 	}
@@ -74,6 +70,8 @@ void UTankAimingComponent::AimAt(FHitResult hitVector)
 
 void UTankAimingComponent::AIAimAt(FVector PlayerLocation)
 {
+
+	//if (barrel == nullptr) { return; }
 
 	FVector location = barrel->GetSocketLocation(FName("LaunchPoint"));
 	FVector outTossVelocity = FVector(0);
@@ -112,6 +110,8 @@ void UTankAimingComponent::setAimingTurretComponenet(UTankTurret * turretToSetup
 }
 
 void UTankAimingComponent::moveBarrel(FVector aimTarget) {
+
+	//if (barrel == nullptr) { return; }
 
 	auto RotationDifference =  aimTarget.Rotation()- barrel->GetForwardVector().Rotation();
 	barrel->elevate(RotationDifference.Pitch);
