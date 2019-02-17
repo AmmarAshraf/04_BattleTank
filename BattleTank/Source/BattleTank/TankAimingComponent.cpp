@@ -37,17 +37,22 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 
 void UTankAimingComponent::AimAt(FHitResult hitVector)
 {
+	if (barrel==nullptr) { return; }
+
+	auto hitName = hitVector.GetActor() != nullptr ? hitVector.GetActor()->GetName() : "";
+
+	UE_LOG(LogTemp, Warning, TEXT(" Hit Compnenet %s Name %s"), *hitVector.Location.ToString(), *hitName)
 
 	FVector location=barrel->GetSocketLocation(FName("LaunchPoint"));
 	FVector outTossVelocity=FVector(0);
 	
 	bool ret= UGameplayStatics::SuggestProjectileVelocity(
-		GetWorld(),
+		this,
 		outTossVelocity,
 		location,
 		hitVector.Location,
 		launchSpeed,
-		0,0,false,
+		false, 0, 0,
 		ESuggestProjVelocityTraceOption::DoNotTrace
 	);
 
@@ -58,15 +63,12 @@ void UTankAimingComponent::AimAt(FHitResult hitVector)
 
 		auto hitName = hitVector.GetActor() != nullptr ? hitVector.GetActor()->GetName() : "";
 
-		//UE_LOG(LogTemp, Warning, TEXT("Toss Velocty %s Hit Compnenet %s"), *UnitVector.ToString(),*hitVector.Location.ToString(),*hitName)
+		//UE_LOG(LogTemp, Warning, TEXT("Toss Velocty %s Hit Compnenet %s Name %s"), *outTossVelocity.ToString(),*UnitVector.ToString(),*hitName)
 
-		moveBarrel(hitVector.Location);
+		moveBarrel(UnitVector);
 	
 	}
-	else {
-		if(Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn())== Cast<ATank>(GetOwner()))
-		 UE_LOG(LogTemp, Warning, TEXT("No aiming solution found"))
-	}
+	
 	
 }
 
@@ -79,10 +81,10 @@ void UTankAimingComponent::AIAimAt(FVector PlayerLocation)
 	bool ret = UGameplayStatics::SuggestProjectileVelocity(
 		GetWorld(),
 		outTossVelocity,
-		PlayerLocation,
 		location,
+		PlayerLocation,
 		launchSpeed,
-		0, 0, false,
+		false, 0, 0,
 		ESuggestProjVelocityTraceOption::DoNotTrace
 	);
 
@@ -91,13 +93,10 @@ void UTankAimingComponent::AIAimAt(FVector PlayerLocation)
 		auto UnitVector = outTossVelocity.GetSafeNormal();
 		auto OwnerName = GetOwner()->GetName();
 
-		moveBarrel(PlayerLocation);
+		//moveBarrel(UnitVector);
 
 	}
-	else {
-		if (Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn()) == Cast<ATank>(GetOwner()))
-			UE_LOG(LogTemp, Warning, TEXT("No aiming solution found"))
-	}
+	
 
 }
 

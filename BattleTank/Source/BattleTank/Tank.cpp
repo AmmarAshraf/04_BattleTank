@@ -46,12 +46,6 @@ void ATank::setAimingTurretComponenet(UTankTurret * turretSetup)
 	GetAimingComponent()->setAimingTurretComponenet(turretSetup);
 }
 
-void ATank::setTankTrackComponenet(UTankTracks* leftTrackSetup, UTankTracks* rightTrackSetup) {
-	leftTrack = leftTrackSetup;
-	rightTrack = rightTrackSetup;
-}
-
-
 void ATank::Fire() {
 	
 	if((FPlatformTime::Seconds() - lastTime)> fireDelay){

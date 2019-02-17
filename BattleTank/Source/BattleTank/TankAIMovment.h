@@ -19,7 +19,7 @@ class BATTLETANK_API UTankAIMovment : public UNavMovementComponent
 public:
 
 	UFUNCTION(BlueprintCallable)
-	void intitialize(UTankTracks* leftTankTrack,UTankTracks* rightTankTrack);
+	void intitialize(UTankTracks* leftTankTrackToSetup,UTankTracks* rightTankTrackToSetup);
 
 	UFUNCTION(BlueprintCallable)
 	void IntentMovment(float data);
@@ -30,7 +30,19 @@ public:
 	UFUNCTION(BlueprintCallable)
 		void IntentTurnLeft(float data);
 
+	UFUNCTION(BlueprintCallable)
+		void DragRight(float data);
+
+	UFUNCTION(BlueprintCallable)
+		void DragLeft(float data);
+
+protected:
+	// Called when the game starts
+	virtual void RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed) override;
+
+
 private:
 	UTankTracks* leftTankTrack;
 	UTankTracks* rightTankTrack;
+
 };

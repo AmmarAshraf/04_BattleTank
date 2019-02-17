@@ -30,12 +30,12 @@ public:
 	float CrossHairXLocation=0.5;
 
 	UPROPERTY(EditDefaultsOnly)
-	float CrossHairYLocation=0.33;
+	float CrossHairYLocation=0.5;
 
 	UPROPERTY(EditDefaultsOnly)
-	float LineTraceRange = 1000000;
+	float LineTraceRange = 100000;
 
-	bool GetCameraDirection(FVector CrossHairScreenLocation, FVector &CameraDirection);
+	bool GetCameraDirection(FVector2D CrossHairScreenLocation, FVector &CameraDirection);
 
 	bool GetVectorHitLocation(FVector LookDirection, FHitResult hitresult);
 };

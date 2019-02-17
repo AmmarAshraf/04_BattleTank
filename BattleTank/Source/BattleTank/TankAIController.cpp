@@ -22,7 +22,7 @@ void ATankAIController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	
-	UE_LOG(LogTemp, Warning, TEXT("Keep firing"))
+	//UE_LOG(LogTemp, Warning, TEXT("Keep firing"))
 	
 	ATank* thisTank= Cast<ATank>(GetPawn());
 

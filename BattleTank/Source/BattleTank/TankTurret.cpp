@@ -33,15 +33,13 @@ void UTankTurret::TickComponent(float DeltaTime, ELevelTick TickType, FActorComp
 
 void UTankTurret::moveTurret(float relativeSpeed) {
 
-	relativeSpeed = FMath::Clamp<float>(relativeSpeed, -1, 1);
+	relativeSpeed = FMath::Clamp<float>(relativeSpeed, -1, +1);
 
-	float delta = relativeSpeed*barrelDegrees* GetWorld()->GetTimeSeconds();
+	float delta = relativeSpeed*barrelDegrees* GetWorld()->DeltaTimeSeconds;
 
 	auto rawRotation = RelativeRotation.Yaw + delta;
 
-	auto elevation = FMath::Clamp<float>(rawRotation, 0, 360);
-
-	SetRelativeRotation(FRotator(0, elevation, 0));
+	SetRelativeRotation(FRotator(0, rawRotation, 0));
 
     //UE_LOG(LogTemp, Warning, TEXT("%s owner:Rotation %f"), *GetOwner()->GetName(), elevation)
 }
