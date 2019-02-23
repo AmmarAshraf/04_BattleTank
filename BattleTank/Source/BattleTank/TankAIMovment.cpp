@@ -39,16 +39,21 @@ void UTankAIMovment::IntentTurnLeft(float data)
 void UTankAIMovment::RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed){
 
 	UE_LOG(LogTemp, Warning, TEXT("Request to direct move called"))
-	/*auto mineVector=GetOwner()->GetActorForwardVector().GetSafeNormal();
+	auto mineVector=GetOwner()->GetActorForwardVector().GetSafeNormal();
 	auto AIVector = MoveVelocity.GetSafeNormal();
 
 	auto result= FVector::DotProduct(mineVector, AIVector);
 
 	IntentMovment(result);
 
+	auto crossProduct=FVector::CrossProduct(mineVector, AIVector);
+
+	//if (crossProduct.GetSafeNormal().Z > 0) {
+		IntentTurnRight(crossProduct.GetSafeNormal().Z);
+	
 	auto Owner = GetOwner()->GetName();
 
-	UE_LOG(LogTemp, Warning, TEXT("%s owner:Veclocity %s"), *Owner, *MoveVelocity.ToString())*/
+	UE_LOG(LogTemp, Warning, TEXT("%s owner:Veclocity %s"), *Owner, *MoveVelocity.ToString())
 
 }
 
