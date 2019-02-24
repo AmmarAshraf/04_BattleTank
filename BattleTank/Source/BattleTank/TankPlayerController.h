@@ -16,7 +16,7 @@ class BATTLETANK_API ATankPlayerController : public APlayerController
 	GENERATED_BODY()
 
 private:
-	ATank* GetTankComponent() const;
+
 	virtual void BeginPlay() override;
 	//starting moving barrel to shot would hit where crosshair intersect world
 	void AimingTowardsCrosshair();
@@ -38,4 +38,9 @@ public:
 	bool GetCameraDirection(FVector2D CrossHairScreenLocation, FVector &CameraDirection);
 
 	bool GetVectorHitLocation(FVector LookDirection, FHitResult hitresult);
+
+protected:
+	UFUNCTION(BluePrintCallable, Category = "Setup")
+	ATank* GetTankComponent() const;
+
 };

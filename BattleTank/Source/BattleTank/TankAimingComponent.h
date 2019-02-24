@@ -4,8 +4,16 @@
 
 #include "Engine.h"
 #include "Components/ActorComponent.h"
-
 #include "TankAimingComponent.generated.h"
+
+UENUM(BlueprintType)
+enum class ELoadStates : uint8 {
+	VE_RELOAD UMETA(DisplayName = "Reload"),
+
+	VE_AIMING UMETA(DisplayName = "Aiming"),
+
+	VE_LOCKED UMETA(DisplayName = "Locked")
+};
 
 class UTankBarrel;
 class UTankTurret;
@@ -27,16 +35,16 @@ public:
 	void setAimingTurretComponenet(UTankTurret* turret);
 
 	void moveBarrel(FVector aimTarget);
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+	UPROPERTY(EditAnyWhere)
+		float launchSpeed = 10;
 
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 	UTankBarrel * barrel=nullptr;
 	UTankTurret * turret = nullptr;
-public:
-	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-	UPROPERTY(EditAnyWhere)
-	float launchSpeed=10;
-		
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Enum)
+		ELoadStates LoadStates;
+
 };

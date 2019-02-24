@@ -29,8 +29,10 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	UPROPERTY(BluePrintReadOnly, Category = "Setup")
 	UTankAimingComponent* utankAimingCompnent;
-	
+
 public:	
 
 	// Called to bind functionality to input
