@@ -2,7 +2,7 @@
 
 #include "Tank.h"
 #include "TankBarrel.h"
-#include "Projectile.h"
+
 #include "TankAIMovment.h"
 
 // Sets default values
@@ -31,22 +31,7 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 }
 
-void ATank::Fire() {
-	if (barrel==nullptr) { return; }
 
-		if ((FPlatformTime::Seconds() - lastTime) > fireDelay) {
-
-			lastTime = FPlatformTime::Seconds();
-
-			auto socket = barrel->GetSocketByName(FName("LaunchPoint"));
-			auto location = barrel->GetSocketLocation(FName("LaunchPoint"));
-			auto rotation = barrel->GetSocketRotation(FName("LaunchPoint"));
-
-			auto spawnedProjectile = GetWorld()->SpawnActor<AProjectile>(projectile, location, rotation, FActorSpawnParameters());
-			spawnedProjectile->LaunchProjectile(launchSpeed);
-		}
-	
-}
 
 
 

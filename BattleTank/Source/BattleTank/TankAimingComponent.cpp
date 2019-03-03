@@ -3,6 +3,7 @@
 #include "TankAimingComponent.h"
 #include "TankBarrel.h"
 #include "TankTurret.h"
+#include "Projectile.h"
 #include "Tank.h"
 
 // Sets default values for this component's properties
@@ -11,7 +12,7 @@ UTankAimingComponent::UTankAimingComponent()
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
-	LoadStates = ELoadStates::VE_LOCKED;
+	LoadStates = ELoadStates::VE_RELOAD;
 	// ...
 }
 
@@ -21,7 +22,9 @@ void UTankAimingComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// ...
+	//we are doing this so first fire will be after reload
+	lastTime = FPlatformTime::Seconds();
+	
 	
 }
 
@@ -31,7 +34,10 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	// ...
+	if ((FPlatformTime::Seconds() - lastTime) > fireDelay) {
+		LoadStates = ELoadStates::VE_RELOAD;
+	}
+	
 }
 
 
@@ -91,7 +97,7 @@ void UTankAimingComponent::AIAimAt(FVector PlayerLocation)
 		auto UnitVector = outTossVelocity.GetSafeNormal();
 		auto OwnerName = GetOwner()->GetName();
 
-		//moveBarrel(UnitVector);
+		moveBarrel(UnitVector);
 
 	}
 	
@@ -110,4 +116,24 @@ void UTankAimingComponent::moveBarrel(FVector aimTarget) {
 void UTankAimingComponent::intitialize(UTankBarrel* tankBarrelToSetup, UTankTurret* tankTurretToSetup) {
 	barrel = tankBarrelToSetup;
 	turret = tankTurretToSetup;
+}
+
+void UTankAimingComponent::Fire() {
+	
+
+	if (LoadStates!= ELoadStates::VE_RELOAD) {
+
+		if (barrel == nullptr) { return; }
+
+		if (projectile == nullptr) { return; }
+
+		
+		auto socket = barrel->GetSocketByName(FName("LaunchPoint"));
+		auto location = barrel->GetSocketLocation(FName("LaunchPoint"));
+		auto rotation = barrel->GetSocketRotation(FName("LaunchPoint"));
+
+		auto spawnedProjectile = GetWorld()->SpawnActor<AProjectile>(projectile, location, rotation, FActorSpawnParameters());
+		spawnedProjectile->LaunchProjectile(launchSpeed);
+	}
+
 }

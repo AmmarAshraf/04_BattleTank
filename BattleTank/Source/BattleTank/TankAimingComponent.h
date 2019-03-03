@@ -4,7 +4,9 @@
 
 #include "Engine.h"
 #include "Components/ActorComponent.h"
+#include "Projectile.h"
 #include "TankAimingComponent.generated.h"
+
 
 UENUM(BlueprintType)
 enum class ELoadStates : uint8 {
@@ -17,6 +19,7 @@ enum class ELoadStates : uint8 {
 
 class UTankBarrel;
 class UTankTurret;
+class AProjectile;
 //Hold barrel properties and elevate methods
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class BATTLETANK_API UTankAimingComponent : public UActorComponent
@@ -38,6 +41,16 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = Setup)
 		float launchSpeed = 4000; //km/s 
 
+	UPROPERTY(EditDefaultsOnly, Category = Setup)
+		TSubclassOf<AProjectile> projectile;
+
+
+	UFUNCTION(BlueprintCallable, Category = Setup)
+		void Fire();
+
+
+	UPROPERTY(EditDefaultsOnly, Category = Setup)
+		float fireDelay = 3;
 
 protected:
 	// Called when the game starts
@@ -47,4 +60,6 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Enum)
 		ELoadStates LoadStates;
 
+	bool isBarrelReloaded;
+	double lastTime;
 };

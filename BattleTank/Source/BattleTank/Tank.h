@@ -9,11 +9,6 @@
 #include "Engine.h"
 #include "Tank.generated.h"
 
-class UTankBarrel;
-class UTankTurret;
-class UTankTracks;
-class AProjectile;
-class UTankAIMovment;
 
 UCLASS()
 class BATTLETANK_API ATank : public APawn
@@ -34,23 +29,4 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	UFUNCTION(BlueprintCallable, Category = Setup)
-		void Fire();
-
-	UPROPERTY(EditDefaultsOnly, Category = Setup)
-		float launchSpeed = 4000; //km/s 
-
-	UPROPERTY(EditDefaultsOnly, Category = Setup)
-		TSubclassOf<AProjectile> projectile;
-
-	UPROPERTY(EditDefaultsOnly, Category = Setup)
-	float fireDelay =3;
-
-
-private:
-	UTankBarrel* barrel;
-
-	bool isBarrelReloaded;
-	double lastTime;
-	
 };
