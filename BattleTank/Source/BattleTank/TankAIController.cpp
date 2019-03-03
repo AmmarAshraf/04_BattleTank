@@ -1,6 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
+
 #include "TankAIController.h"
+#include "TankAimingComponent.h"
 #include "Tank.h"
 
 
@@ -37,9 +39,14 @@ void ATankAIController::Tick(float DeltaTime)
 	auto playerPawn = GetWorld()->GetFirstPlayerController()->GetPawn();
 
 	if (playerPawn != nullptr && thisTank != nullptr){
+
+		auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
+		if (AimingComponent == nullptr) {
+			return;
+		}
 		 ATank* playerTank= Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
 
-		 //thisTank->GetAimingComponent()->AIAimAt(playerTank->GetActorLocation());
+		 AimingComponent->AIAimAt(playerTank->GetActorLocation());
 	
 		 thisTank->Fire();
 	

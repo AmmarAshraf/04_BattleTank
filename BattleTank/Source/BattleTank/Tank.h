@@ -7,7 +7,6 @@
 #include "GameFramework/Pawn.h"
 #include "DrawDebugHelpers.h"
 #include "Engine.h"
-#include "TankAimingComponent.h"
 #include "Tank.generated.h"
 
 class UTankBarrel;
@@ -30,10 +29,6 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	UPROPERTY(BluePrintReadOnly, Category = "Setup")
-	UTankAimingComponent* utankAimingCompnent;
-
-
 public:	
 
 	// Called to bind functionality to input
@@ -51,7 +46,6 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = Setup)
 	float fireDelay =3;
 
-	void AimAt(FHitResult hitVector);
 
 private:
 	UTankBarrel* barrel;

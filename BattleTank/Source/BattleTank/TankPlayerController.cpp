@@ -2,22 +2,14 @@
 
 #include "TankPlayerController.h"
 #include "BattleTank.h"
-#include "Tank.h"
 #include "TankAimingComponent.h"
-
-
 #define OUT
-ATank* ATankPlayerController:: GetTankComponent() const{
-
-	return Cast<ATank>(GetPawn());
-
-}
 
 void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	auto AimingComponent = GetTankComponent()->FindComponentByClass<UTankAimingComponent>();
+	auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 	if(AimingComponent!=nullptr)
 	NotifyAinmingComponentCreated(AimingComponent);
 	else
@@ -34,7 +26,7 @@ void ATankPlayerController::Tick(float DeltaTime)
 
 void ATankPlayerController::AimingTowardsCrosshair() {
 
-	if (GetTankComponent() != nullptr) {
+	if (GetPawn() != nullptr) {
 
 		FHitResult hitLocation;
 
@@ -81,6 +73,10 @@ bool ATankPlayerController::GetCameraDirection(FVector2D CrossHairScreenLocation
 
 bool ATankPlayerController::GetVectorHitLocation(FVector LookDirection, FHitResult hitresult) {
 
+	auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
+	if (AimingComponent == nullptr){
+		return false;
+	}
 
 	auto CameraLocation= PlayerCameraManager->GetCameraLocation();
 
@@ -93,14 +89,14 @@ bool ATankPlayerController::GetVectorHitLocation(FVector LookDirection, FHitResu
 		EndLocation, //end
 		ECollisionChannel::ECC_Camera)){
     	
-		GetTankComponent()->AimAt(hitresult);
+		AimingComponent->AimAt(hitresult);
 		return true;
 		
 	}
 	else {
 		hitresult = FHitResult();
 		hitresult.Location = FVector(0);
-		GetTankComponent()->AimAt(hitresult);
+		AimingComponent->AimAt(hitresult);
 		return false;
 	}
 

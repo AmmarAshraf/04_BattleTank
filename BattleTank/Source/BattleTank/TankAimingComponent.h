@@ -34,8 +34,10 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void moveBarrel(FVector aimTarget);
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-	UPROPERTY(EditAnyWhere)
-		float launchSpeed = 3000;
+	
+	UPROPERTY(EditDefaultsOnly, Category = Setup)
+		float launchSpeed = 4000; //km/s 
+
 
 protected:
 	// Called when the game starts

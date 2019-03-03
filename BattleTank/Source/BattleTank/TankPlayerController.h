@@ -41,8 +41,6 @@ public:
 	bool GetVectorHitLocation(FVector LookDirection, FHitResult hitresult);
 
 protected:
-	UFUNCTION(BlueprintCallable, Category = "Setup")
-	ATank* GetTankComponent() const;
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
 	void NotifyAinmingComponentCreated(UTankAimingComponent* utank);

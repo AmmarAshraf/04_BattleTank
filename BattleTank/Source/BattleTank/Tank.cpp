@@ -21,15 +21,6 @@ ATank::ATank()
 void ATank::BeginPlay()
 {
 	Super::BeginPlay();
-	UE_LOG(LogTemp, Warning, TEXT("C++ Tank Begin Play"))
-
-	utankAimingCompnent = FindComponentByClass<UTankAimingComponent>();
-
-	if (utankAimingCompnent==nullptr) {
-
-		UE_LOG(LogTemp, Warning, TEXT("Aim Conpnent Not found"))
-		return;
-	}
 
 }
 
@@ -37,16 +28,6 @@ void ATank::BeginPlay()
 void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
-}
-
-
-void ATank::AimAt(FHitResult hitVector) {
-	if (utankAimingCompnent== nullptr) { return; }
-
-	utankAimingCompnent->AimAt(hitVector);
-
-	//UE_LOG(LogTemp, Warning, TEXT("Fire"))
 
 }
 
