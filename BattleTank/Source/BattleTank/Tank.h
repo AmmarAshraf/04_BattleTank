@@ -33,18 +33,11 @@ protected:
 	UPROPERTY(BluePrintReadOnly, Category = "Setup")
 	UTankAimingComponent* utankAimingCompnent;
 
+
 public:	
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
-	UTankAimingComponent* GetAimingComponent();
-	
-	UFUNCTION(BlueprintCallable, Category = Setup)
-	void setAimingBarrelComponenet(UTankBarrel* barrelToSetup);
-
-	UFUNCTION(BlueprintCallable, Category = Setup)
-		void setAimingTurretComponenet(UTankTurret* turretSetup);
 
 	UFUNCTION(BlueprintCallable, Category = Setup)
 		void Fire();
@@ -57,6 +50,8 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category = Setup)
 	float fireDelay =3;
+
+	void AimAt(FHitResult hitVector);
 
 private:
 	UTankBarrel* barrel;

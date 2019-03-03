@@ -39,7 +39,7 @@ void ATankAIController::Tick(float DeltaTime)
 	if (playerPawn != nullptr && thisTank != nullptr){
 		 ATank* playerTank= Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
 
-		 thisTank->GetAimingComponent()->AIAimAt(playerTank->GetActorLocation());
+		 //thisTank->GetAimingComponent()->AIAimAt(playerTank->GetActorLocation());
 	
 		 thisTank->Fire();
 	

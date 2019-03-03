@@ -10,8 +10,9 @@ ATank::ATank()
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	utankAimingCompnent = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"));
-	
+	//utankAimingCompnent = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"));
+
+	UE_LOG(LogTemp, Warning, TEXT("C++ Tank Constuctor"))
 }
 
 
@@ -20,8 +21,17 @@ ATank::ATank()
 void ATank::BeginPlay()
 {
 	Super::BeginPlay();
-}
+	UE_LOG(LogTemp, Warning, TEXT("C++ Tank Begin Play"))
 
+	utankAimingCompnent = FindComponentByClass<UTankAimingComponent>();
+
+	if (utankAimingCompnent==nullptr) {
+
+		UE_LOG(LogTemp, Warning, TEXT("Aim Conpnent Not found"))
+		return;
+	}
+
+}
 
 // Called to bind functionality to input
 void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -31,35 +41,33 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 }
 
 
-UTankAimingComponent* ATank::GetAimingComponent() {
-	return utankAimingCompnent;
-}
+void ATank::AimAt(FHitResult hitVector) {
+	if (utankAimingCompnent== nullptr) { return; }
 
-void ATank::setAimingBarrelComponenet(UTankBarrel * barrelToSetup)
-{
-	GetAimingComponent()->setAimingBarrelComponenet(barrelToSetup, launchSpeed);
-	barrel = barrelToSetup;
-}
+	utankAimingCompnent->AimAt(hitVector);
 
-void ATank::setAimingTurretComponenet(UTankTurret * turretSetup)
-{
-	GetAimingComponent()->setAimingTurretComponenet(turretSetup);
+	//UE_LOG(LogTemp, Warning, TEXT("Fire"))
+
 }
 
 void ATank::Fire() {
+	if (barrel==nullptr) { return; }
+
+		if ((FPlatformTime::Seconds() - lastTime) > fireDelay) {
+
+			lastTime = FPlatformTime::Seconds();
+
+			auto socket = barrel->GetSocketByName(FName("LaunchPoint"));
+			auto location = barrel->GetSocketLocation(FName("LaunchPoint"));
+			auto rotation = barrel->GetSocketRotation(FName("LaunchPoint"));
+
+			auto spawnedProjectile = GetWorld()->SpawnActor<AProjectile>(projectile, location, rotation, FActorSpawnParameters());
+			spawnedProjectile->LaunchProjectile(launchSpeed);
+		}
 	
-	if((FPlatformTime::Seconds() - lastTime)> fireDelay){
-	
-	lastTime = FPlatformTime::Seconds();
-	
-	auto socket= barrel->GetSocketByName(FName("LaunchPoint"));
-	auto location = barrel->GetSocketLocation(FName("LaunchPoint"));
-	auto rotation = barrel->GetSocketRotation(FName("LaunchPoint"));
-	  
-	auto spawnedProjectile=GetWorld()->SpawnActor<AProjectile>(projectile, location,rotation, FActorSpawnParameters());
-	spawnedProjectile->LaunchProjectile(launchSpeed);
-	}
 }
+
+
 
 
 

@@ -10,6 +10,7 @@
  * 
  */
 class ATank;
+class UTankAimingComponent;
 UCLASS()
 class BATTLETANK_API ATankPlayerController : public APlayerController
 {
@@ -40,7 +41,10 @@ public:
 	bool GetVectorHitLocation(FVector LookDirection, FHitResult hitresult);
 
 protected:
-	UFUNCTION(BluePrintCallable, Category = "Setup")
+	UFUNCTION(BlueprintCallable, Category = "Setup")
 	ATank* GetTankComponent() const;
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
+	void NotifyAinmingComponentCreated(UTankAimingComponent* utank);
 
 };

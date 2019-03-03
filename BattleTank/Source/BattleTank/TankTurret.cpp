@@ -18,7 +18,6 @@ void UTankTurret::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// ...
 	
 }
 

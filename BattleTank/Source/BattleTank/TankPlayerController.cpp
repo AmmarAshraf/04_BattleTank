@@ -3,7 +3,7 @@
 #include "TankPlayerController.h"
 #include "BattleTank.h"
 #include "Tank.h"
-
+#include "TankAimingComponent.h"
 
 
 #define OUT
@@ -17,12 +17,12 @@ void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	if (GetTankComponent() == NULL) {
-	UE_LOG(LogTemp,Warning,TEXT("Tank component not found"))
-	}
-	else {
-	UE_LOG(LogTemp, Warning, TEXT("Tank component found"))
-	}
+	auto AimingComponent = GetTankComponent()->FindComponentByClass<UTankAimingComponent>();
+	if(AimingComponent!=nullptr)
+	NotifyAinmingComponentCreated(AimingComponent);
+	else
+	UE_LOG(LogTemp, Warning, TEXT("Aiming component not found"))
+
 
 }
 
@@ -93,14 +93,14 @@ bool ATankPlayerController::GetVectorHitLocation(FVector LookDirection, FHitResu
 		EndLocation, //end
 		ECollisionChannel::ECC_Camera)){
     	
-		GetTankComponent()->GetAimingComponent()->AimAt(hitresult);
+		GetTankComponent()->AimAt(hitresult);
 		return true;
 		
 	}
 	else {
 		hitresult = FHitResult();
 		hitresult.Location = FVector(0);
-		GetTankComponent()->GetAimingComponent()->AimAt(hitresult);
+		GetTankComponent()->AimAt(hitresult);
 		return false;
 	}
 

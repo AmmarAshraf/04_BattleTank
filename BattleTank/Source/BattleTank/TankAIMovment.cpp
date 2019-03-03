@@ -38,7 +38,7 @@ void UTankAIMovment::IntentTurnLeft(float data)
 
 void UTankAIMovment::RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed){
 
-	UE_LOG(LogTemp, Warning, TEXT("Request to direct move called"))
+	//UE_LOG(LogTemp, Warning, TEXT("Request to direct move called"))
 	auto mineVector=GetOwner()->GetActorForwardVector().GetSafeNormal();
 	auto AIVector = MoveVelocity.GetSafeNormal();
 
@@ -53,7 +53,7 @@ void UTankAIMovment::RequestDirectMove(const FVector& MoveVelocity, bool bForceM
 	
 	auto Owner = GetOwner()->GetName();
 
-	UE_LOG(LogTemp, Warning, TEXT("%s owner:Veclocity %s"), *Owner, *MoveVelocity.ToString())
+	//UE_LOG(LogTemp, Warning, TEXT("%s owner:Veclocity %s"), *Owner, *MoveVelocity.ToString())
 
 }
 
@@ -68,7 +68,7 @@ void UTankAIMovment::DragRight(float data) {
 	}
 
 	rightTankTrack->setThrottle(data);
-	UE_LOG(LogTemp, Warning, TEXT("%s Right Drag: %f"), *GetOwner()->GetName(), data)
+	//UE_LOG(LogTemp, Warning, TEXT("%s Right Drag: %f"), *GetOwner()->GetName(), data)
 }
 
 void UTankAIMovment::DragLeft(float data) {
@@ -77,6 +77,6 @@ void UTankAIMovment::DragLeft(float data) {
 	}
 
 	leftTankTrack->setThrottle(data);
-	UE_LOG(LogTemp, Warning, TEXT("%s Left Drag: %f"), *GetOwner()->GetName(), data)
+	//UE_LOG(LogTemp, Warning, TEXT("%s Left Drag: %f"), *GetOwner()->GetName(), data)
 }
 

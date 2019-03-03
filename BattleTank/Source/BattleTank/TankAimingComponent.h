@@ -24,20 +24,18 @@ class BATTLETANK_API UTankAimingComponent : public UActorComponent
 	GENERATED_BODY()
 
 public:	
+	UFUNCTION(BlueprintCallable)
+	void intitialize(UTankBarrel* tankBarrelToSetup, UTankTurret* tankTurretToSetup);
 	// Sets default values for this component's properties
 	UTankAimingComponent();
 	void AimAt(FHitResult hitVector);
 
 	void AIAimAt(FVector vector);
 	UFUNCTION(BlueprintCallable, Category = Setup)
-	void setAimingBarrelComponenet(UTankBarrel* barrelToSetup, float launchSpeed);
-	UFUNCTION(BlueprintCallable, Category = Setup)
-	void setAimingTurretComponenet(UTankTurret* turret);
-
 	void moveBarrel(FVector aimTarget);
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	UPROPERTY(EditAnyWhere)
-		float launchSpeed = 10;
+		float launchSpeed = 3000;
 
 protected:
 	// Called when the game starts
