@@ -34,8 +34,14 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	if ((FPlatformTime::Seconds() - lastTime) > fireDelay) {
+	if ((FPlatformTime::Seconds() - lastTime) < fireDelay) {
 		LoadStates = ELoadStates::VE_RELOAD;
+	}
+	else if (isBarrelMoving()) {
+		LoadStates = ELoadStates::VE_AIMING;
+	}
+	else {
+		LoadStates = ELoadStates::VE_LOCKED;
 	}
 	
 }
@@ -62,12 +68,12 @@ void UTankAimingComponent::AimAt(FHitResult hitVector)
 
 	if (ret) {
 
-		auto UnitVector = outTossVelocity.GetSafeNormal();
+		AimDirection = outTossVelocity.GetSafeNormal();
 		auto OwnerName = GetOwner()->GetName();
 
 		auto hitName = hitVector.GetActor() != nullptr ? hitVector.GetActor()->GetName() : "";
 
-		moveBarrel(UnitVector);
+		moveBarrel(AimDirection);
 	
 	}
 	
@@ -94,10 +100,10 @@ void UTankAimingComponent::AIAimAt(FVector PlayerLocation)
 
 	if (ret) {
 
-		auto UnitVector = outTossVelocity.GetSafeNormal();
+		AimDirection = outTossVelocity.GetSafeNormal();
 		auto OwnerName = GetOwner()->GetName();
 
-		moveBarrel(UnitVector);
+		moveBarrel(AimDirection);
 
 	}
 	
@@ -109,8 +115,13 @@ void UTankAimingComponent::moveBarrel(FVector aimTarget) {
 
 	auto RotationDifference =  aimTarget.Rotation()- barrel->GetForwardVector().Rotation();
 	barrel->elevate(RotationDifference.Pitch);
-	turret->moveTurret(RotationDifference.Yaw);
-
+	//Always aim shortest way
+	if (RotationDifference.Yaw < 180) {
+		turret->moveTurret(RotationDifference.Yaw);
+	}
+	else {
+		turret->moveTurret(-RotationDifference.Yaw);
+	}
 }
 
 void UTankAimingComponent::intitialize(UTankBarrel* tankBarrelToSetup, UTankTurret* tankTurretToSetup) {
@@ -126,7 +137,7 @@ void UTankAimingComponent::Fire() {
 		if (barrel == nullptr) { return; }
 
 		if (projectile == nullptr) { return; }
-
+		LoadStates = ELoadStates::VE_RELOAD;
 		
 		auto socket = barrel->GetSocketByName(FName("LaunchPoint"));
 		auto location = barrel->GetSocketLocation(FName("LaunchPoint"));
@@ -136,4 +147,21 @@ void UTankAimingComponent::Fire() {
 		spawnedProjectile->LaunchProjectile(launchSpeed);
 	}
 
+}
+
+
+bool UTankAimingComponent::isBarrelMoving() {
+
+	if (!ensure(barrel)) {
+		return false;
+	}
+	else {
+		auto forwardVector = barrel->GetForwardVector();
+		return forwardVector.Equals(AimDirection, 0.01);
+	}
+
+}
+
+ELoadStates UTankAimingComponent::GetTankState() {
+	return LoadStates;
 }

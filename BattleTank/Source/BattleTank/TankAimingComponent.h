@@ -52,6 +52,9 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = Setup)
 		float fireDelay = 3;
 
+	UFUNCTION(BlueprintCallable, Category = Setup)
+		ELoadStates GetTankState();
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
@@ -62,4 +65,7 @@ protected:
 
 	bool isBarrelReloaded;
 	double lastTime;
+	bool isBarrelMoving();
+	FVector AimDirection;
+
 };

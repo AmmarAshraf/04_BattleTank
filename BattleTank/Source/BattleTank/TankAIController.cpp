@@ -48,7 +48,9 @@ void ATankAIController::Tick(float DeltaTime)
 
 		 AimingComponent->AIAimAt(playerTank->GetActorLocation());
 	
+		 if(AimingComponent->GetTankState()== ELoadStates::VE_LOCKED){
 		 AimingComponent->Fire();
-	
+		 }
+
 	}
 }
