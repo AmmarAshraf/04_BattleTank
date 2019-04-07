@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Engine.h"
 #include "AIController.h"
+#include "Tank.h"
 #include "TankAIController.generated.h"
 
 /**
@@ -20,11 +21,13 @@ class BATTLETANK_API ATankAIController : public AAIController
 	
 public:
 	ATankAIController();
+	virtual void SetPawn(APawn* InPawn) override;
 
 private:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 	UPROPERTY(EditAnyWhere)
 	float AcceptanceRadius = 80000;
+	void OnTankDeath();
 
 };

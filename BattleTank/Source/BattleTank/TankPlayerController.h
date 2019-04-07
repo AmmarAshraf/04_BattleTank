@@ -40,6 +40,10 @@ public:
 
 	bool GetVectorHitLocation(FVector LookDirection, FHitResult hitresult);
 
+	void OnTankDeath();
+
+	virtual void SetPawn(APawn* InPawn) override;
+
 protected:
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "Setup")

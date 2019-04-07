@@ -14,7 +14,9 @@ enum class ELoadStates : uint8 {
 
 	VE_AIMING UMETA(DisplayName = "Aiming"),
 
-	VE_LOCKED UMETA(DisplayName = "Locked")
+	VE_LOCKED UMETA(DisplayName = "Locked"),
+
+	VE_OUT_OF_AMMO UMETA(DisplayName = "OUTOFAMMO")
 };
 
 class UTankBarrel;
@@ -34,26 +36,30 @@ public:
 	void AimAt(FHitResult hitVector);
 
 	void AIAimAt(FVector vector);
-	UFUNCTION(BlueprintCallable, Category = Setup)
+	UFUNCTION(BlueprintCallable, Category = "Setup")
 	void moveBarrel(FVector aimTarget);
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	
-	UPROPERTY(EditDefaultsOnly, Category = Setup)
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 		float launchSpeed = 4000; //km/s 
 
-	UPROPERTY(EditDefaultsOnly, Category = Setup)
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 		TSubclassOf<AProjectile> projectile;
 
-
-	UFUNCTION(BlueprintCallable, Category = Setup)
+	UFUNCTION(BlueprintCallable, Category = "Setup")
 		void Fire();
 
-
-	UPROPERTY(EditDefaultsOnly, Category = Setup)
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 		float fireDelay = 3;
 
-	UFUNCTION(BlueprintCallable, Category = Setup)
+	UFUNCTION(BlueprintCallable, Category = "Setup")
 		ELoadStates GetTankState();
+
+	UPROPERTY(EditAnywhere, Category = "Setup")
+	    float fireCount = 3;
+
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+		float GetFireCount();
 
 protected:
 	// Called when the game starts
@@ -67,5 +73,6 @@ protected:
 	double lastTime;
 	bool isBarrelMoving();
 	FVector AimDirection;
+	
 
 };

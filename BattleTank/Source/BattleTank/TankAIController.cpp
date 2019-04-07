@@ -33,7 +33,6 @@ void ATankAIController::Tick(float DeltaTime)
 	// Move towards the player
 	MoveToActor(PlayerTank, AcceptanceRadius); // TODO check radius is in cm
 	
-	
 	ATank* thisTank= Cast<ATank>(GetPawn());
 
 	auto playerPawn = GetWorld()->GetFirstPlayerController()->GetPawn();
@@ -48,9 +47,34 @@ void ATankAIController::Tick(float DeltaTime)
 
 		 AimingComponent->AIAimAt(playerTank->GetActorLocation());
 	
-		 if(AimingComponent->GetTankState()== ELoadStates::VE_LOCKED){
 		 AimingComponent->Fire();
-		 }
+	
+	}
+
+
+	
+}
+
+
+void ATankAIController::SetPawn(APawn* InPawn) {
+	Super::SetPawn(InPawn);
+	if (InPawn) {
+
+		auto possesedTank = Cast<ATank>(InPawn);
+
+		if (possesedTank == nullptr) {
+			return;
+		}
+		else {
+			//subscribe
+			possesedTank->fTankDelegate.AddUniqueDynamic(this, &ATankAIController::OnTankDeath);
+
+		}
 
 	}
+}
+
+
+void ATankAIController::OnTankDeath() {
+        GetPawn()->DetachFromControllerPendingDestroy();
 }

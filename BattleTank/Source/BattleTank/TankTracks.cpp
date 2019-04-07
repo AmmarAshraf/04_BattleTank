@@ -39,7 +39,7 @@ void UTankTracks::ApplySlipeSideWays() {
 	auto TankRoot = Cast<UStaticMeshComponent>(GetOwner()->GetRootComponent());
 	auto CorrectionForce = (TankRoot->GetMass()*CorrectionAcceleration) / 2;
 	TankRoot->AddForce(CorrectionForce);
-	UE_LOG(LogTemp, Warning, TEXT("Correction force %s"), *CorrectionForce.ToString())
+	//UE_LOG(LogTemp, Warning, TEXT("Correction force %s"), *CorrectionForce.ToString())
 }
 
 void UTankTracks::DriveTrack() {

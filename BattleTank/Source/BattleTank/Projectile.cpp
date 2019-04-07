@@ -9,7 +9,21 @@ AProjectile::AProjectile()
 	PrimaryActorTick.bCanEverTick = true;
 
 	movmentComponent = CreateDefaultSubobject<UProjectileMovementComponent>(FName("Projectilemovment"));
+	staticMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(FName("StaticMeshComponent"));
 
+	SetRootComponent(staticMeshComponent);
+	
+	LaunchBlast = CreateDefaultSubobject<UParticleSystemComponent>(FName("LaunchBlast"));
+	LaunchBlast->AttachToComponent(RootComponent,FAttachmentTransformRules::KeepRelativeTransform);
+
+	ImpactBlast = CreateDefaultSubobject<UParticleSystemComponent>(FName("ImpactBlast"));
+	ImpactBlast->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+
+	RadialForce = CreateDefaultSubobject<URadialForceComponent>(FName("RadialForce"));
+	RadialForce->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+
+
+	staticMeshComponent->SetNotifyRigidBodyCollision(true);
 	movmentComponent->bAutoActivate = false;
 }
 
@@ -17,7 +31,7 @@ AProjectile::AProjectile()
 void AProjectile::BeginPlay()
 {
 	Super::BeginPlay();
-
+	staticMeshComponent->OnComponentHit.AddDynamic(this, &AProjectile::OnCompHit);
 
 }
 
@@ -30,10 +44,32 @@ void AProjectile::Tick(float DeltaTime)
 
 void AProjectile::LaunchProjectile(float Speed)
 {
-
+	ImpactBlast->Deactivate();
 	movmentComponent->SetVelocityInLocalSpace(FVector::ForwardVector * Speed);
 	movmentComponent->Activate();
-	//UE_LOG(LogTemp, Warning, TEXT("Projectile launched"))
+
 }
+
+void AProjectile::OnCompHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit) {
+
+	LaunchBlast->Deactivate();
+	ImpactBlast->Activate();
+	
+	RadialForce->FireImpulse();
+
+	FTimerHandle Timer;
+
+	GetWorld()->GetTimerManager().SetTimer(Timer,this, &AProjectile::OnTimeExpired,10.f,false);
+
+	UGameplayStatics::ApplyRadialDamage(this, ProjectileDamage, staticMeshComponent->GetComponentLocation(), RadialForce->Radius,
+		UDamageType::StaticClass(), TArray<AActor*>());
+
+}
+
+
+void AProjectile::OnTimeExpired() {
+	Destroy();
+}
+
 
 

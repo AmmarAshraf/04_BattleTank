@@ -34,15 +34,20 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	if ((FPlatformTime::Seconds() - lastTime) < fireDelay) {
+	if (GetFireCount() == 0) {
+		LoadStates = ELoadStates::VE_OUT_OF_AMMO;
+	}
+	else if ((FPlatformTime::Seconds() - lastTime) < fireDelay) {
 		LoadStates = ELoadStates::VE_RELOAD;
 	}
 	else if (isBarrelMoving()) {
 		LoadStates = ELoadStates::VE_AIMING;
 	}
-	else {
+	else {		
 		LoadStates = ELoadStates::VE_LOCKED;
 	}
+
+	UE_LOG(LogTemp, Warning, TEXT("delay %f"), (FPlatformTime::Seconds() - lastTime))
 	
 }
 
@@ -132,11 +137,13 @@ void UTankAimingComponent::intitialize(UTankBarrel* tankBarrelToSetup, UTankTurr
 void UTankAimingComponent::Fire() {
 	
 
-	if (LoadStates!= ELoadStates::VE_RELOAD) {
+	if (LoadStates!= ELoadStates::VE_RELOAD&& fireCount>0) {
 
 		if (barrel == nullptr) { return; }
 
 		if (projectile == nullptr) { return; }
+
+
 		LoadStates = ELoadStates::VE_RELOAD;
 		
 		auto socket = barrel->GetSocketByName(FName("LaunchPoint"));
@@ -145,7 +152,11 @@ void UTankAimingComponent::Fire() {
 
 		auto spawnedProjectile = GetWorld()->SpawnActor<AProjectile>(projectile, location, rotation, FActorSpawnParameters());
 		spawnedProjectile->LaunchProjectile(launchSpeed);
+		fireCount = fireCount - 1;		
+		lastTime = FPlatformTime::Seconds();
 	}
+
+	
 
 }
 
@@ -164,4 +175,9 @@ bool UTankAimingComponent::isBarrelMoving() {
 
 ELoadStates UTankAimingComponent::GetTankState() {
 	return LoadStates;
+}
+
+
+float UTankAimingComponent::GetFireCount() {
+	return fireCount;
 }
