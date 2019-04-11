@@ -58,23 +58,23 @@ void ATankAIController::Tick(float DeltaTime)
 
 void ATankAIController::SetPawn(APawn* InPawn) {
 	Super::SetPawn(InPawn);
-	if (InPawn) {
+	//if (InPawn) {
 
-		auto possesedTank = Cast<ATank>(InPawn);
+	//	auto possesedTank = Cast<ATank>(InPawn);
 
-		if (possesedTank == nullptr) {
-			return;
-		}
-		else {
-			//subscribe
-			possesedTank->fTankDelegate.AddUniqueDynamic(this, &ATankAIController::OnTankDeath);
+	//	if (possesedTank == nullptr) {
+	//		return;
+	//	}
+	//	else {
+	//		//subscribe
+	//		possesedTank->fTankDelegate.AddUniqueDynamic(this, &ATankAIController::OnTankDeath);
 
-		}
+	//	}
 
-	}
+	//}
 }
 
 
 void ATankAIController::OnTankDeath() {
-        GetPawn()->DetachFromControllerPendingDestroy();
+       // GetPawn()->DetachFromControllerPendingDestroy();
 }

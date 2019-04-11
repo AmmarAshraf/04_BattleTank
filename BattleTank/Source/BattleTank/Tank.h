@@ -40,5 +40,6 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	float GetHealthPercent();
 
+	UPROPERTY(BlueprintAssignable, Category = "Setup")
 	FTankDelegate fTankDelegate;
 };
