@@ -28,8 +28,8 @@ void UTankTracks::DriveTrack(float CurrentThrottle) {
 
 	auto forceVector = CurrentThrottle*TracksMaxDrivingForce;
 
-	FVector forwardVector = FVector(forceVector, 0,0);
-	UE_LOG(LogTemp, Warning, TEXT("# of wheels %i"), GetWheels().Num())
+	FVector forwardVector = FVector(0, forceVector,0);
+	//UE_LOG(LogTemp, Warning, TEXT("# of wheels %i"), GetWheels().Num())
 	for (auto wheel:GetWheels()) {
 
 		USpawnPoint* spawnPoint= Cast<USpawnPoint>(wheel);
@@ -38,7 +38,7 @@ void UTankTracks::DriveTrack(float CurrentThrottle) {
 			ASprungWheel* sprungWheel= spawnPoint->GetSprungWheel();
 
 		
-			sprungWheel->GetWheel()->AddForce(forwardVector, NAME_None);
+			sprungWheel->AddDrivingForce(forceVector/12);
 		
 			
 			
