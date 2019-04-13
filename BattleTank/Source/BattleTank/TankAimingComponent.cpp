@@ -34,27 +34,27 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	//if (GetFireCount() == 0) {
-	//	LoadStates = ELoadStates::VE_OUT_OF_AMMO;
-	//}
-	//else if ((FPlatformTime::Seconds() - lastTime) < fireDelay) {
-	//	LoadStates = ELoadStates::VE_RELOAD;
-	//}
-	//else if (isBarrelMoving()) {
-	//	LoadStates = ELoadStates::VE_AIMING;
-	//}
-	//else {		
-	//	LoadStates = ELoadStates::VE_LOCKED;
-	//}
+	if (GetFireCount() == 0) {
+		LoadStates = ELoadStates::VE_OUT_OF_AMMO;
+	}
+	else if ((FPlatformTime::Seconds() - lastTime) < fireDelay) {
+		LoadStates = ELoadStates::VE_RELOAD;
+	}
+	else if (isBarrelMoving()) {
+		LoadStates = ELoadStates::VE_AIMING;
+	}
+	else {		
+		LoadStates = ELoadStates::VE_LOCKED;
+	}
 
-	//UE_LOG(LogTemp, Warning, TEXT("delay %f"), (FPlatformTime::Seconds() - lastTime))
+	UE_LOG(LogTemp, Warning, TEXT("delay %f"), (FPlatformTime::Seconds() - lastTime))
 	
 }
 
 
 void UTankAimingComponent::AimAt(FHitResult hitVector)
 {
-	/*if (barrel==nullptr) { return; }
+	if (barrel==nullptr) { return; }
 
 	auto hitName = hitVector.GetActor() != nullptr ? hitVector.GetActor()->GetName() : "";
 
@@ -78,7 +78,7 @@ void UTankAimingComponent::AimAt(FHitResult hitVector)
 
 		moveBarrel(AimDirection);
 	
-	}*/
+	}
 	
 	
 }
@@ -86,45 +86,45 @@ void UTankAimingComponent::AimAt(FHitResult hitVector)
 void UTankAimingComponent::AIAimAt(FVector PlayerLocation)
 {
 
-	//if (barrel == nullptr) { return; }
+	if (barrel == nullptr) { return; }
 
-	//FVector location = barrel->GetSocketLocation(FName("LaunchPoint"));
-	//FVector outTossVelocity = FVector(0);
+	FVector location = barrel->GetSocketLocation(FName("LaunchPoint"));
+	FVector outTossVelocity = FVector(0);
 
-	//bool ret = UGameplayStatics::SuggestProjectileVelocity(
-	//	GetWorld(),
-	//	outTossVelocity,
-	//	location,
-	//	PlayerLocation,
-	//	launchSpeed,
-	//	false, 0, 0,
-	//	ESuggestProjVelocityTraceOption::DoNotTrace
-	//);
+	bool ret = UGameplayStatics::SuggestProjectileVelocity(
+		GetWorld(),
+		outTossVelocity,
+		location,
+		PlayerLocation,
+		launchSpeed,
+		false, 0, 0,
+		ESuggestProjVelocityTraceOption::DoNotTrace
+	);
 
-	//if (ret) {
+	if (ret) {
 
-	//	AimDirection = outTossVelocity.GetSafeNormal();
-	//	auto OwnerName = GetOwner()->GetName();
+		AimDirection = outTossVelocity.GetSafeNormal();
+		auto OwnerName = GetOwner()->GetName();
 
-	//	moveBarrel(AimDirection);
+		moveBarrel(AimDirection);
 
-	//}
+	}
 	
 }
 
 void UTankAimingComponent::moveBarrel(FVector aimTarget) {
 
-	//if (barrel == nullptr&&turret==nullptr) { return; }
+	if (barrel == nullptr&&turret==nullptr) { return; }
 
-	//auto RotationDifference =  aimTarget.Rotation()- barrel->GetForwardVector().Rotation();
-	//barrel->elevate(RotationDifference.Pitch);
-	////Always aim shortest way
-	//if (RotationDifference.Yaw < 180) {
-	//	turret->moveTurret(RotationDifference.Yaw);
-	//}
-	//else {
-	//	turret->moveTurret(-RotationDifference.Yaw);
-	//}
+	auto RotationDifference =  aimTarget.Rotation()- barrel->GetForwardVector().Rotation();
+	barrel->elevate(RotationDifference.Pitch);
+	//Always aim shortest way
+	if (RotationDifference.Yaw < 180) {
+		turret->moveTurret(RotationDifference.Yaw);
+	}
+	else {
+		turret->moveTurret(-RotationDifference.Yaw);
+	}
 }
 
 void UTankAimingComponent::intitialize(UTankBarrel* tankBarrelToSetup, UTankTurret* tankTurretToSetup) {
@@ -137,7 +137,7 @@ void UTankAimingComponent::Fire() {
 
 	if (LoadStates!= ELoadStates::VE_RELOAD&& fireCount>0) {
 
-	/*	if (barrel == nullptr) { return; }
+		if (barrel == nullptr) { return; }
 
 		if (projectile == nullptr) { return; }
 
@@ -151,7 +151,7 @@ void UTankAimingComponent::Fire() {
 		auto spawnedProjectile = GetWorld()->SpawnActor<AProjectile>(projectile, location, rotation, FActorSpawnParameters());
 		spawnedProjectile->LaunchProjectile(launchSpeed);
 		fireCount = fireCount - 1;		
-		lastTime = FPlatformTime::Seconds();*/
+		lastTime = FPlatformTime::Seconds();
 	}
 
 	
