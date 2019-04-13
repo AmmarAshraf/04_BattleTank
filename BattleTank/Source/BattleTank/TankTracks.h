@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Components/StaticMeshComponent.h"
 #include "Components/BoxComponent.h"
+#include "SpawnPoint.h"
 #include "TankTracks.generated.h"
 
 /**
@@ -27,10 +28,8 @@ public :
 private :
 	UTankTracks();
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-	UFUNCTION()
-		void OnCompHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 	virtual void BeginPlay() override;
-	void  ApplySlipeSideWays();
-	void DriveTrack();
-	float CurrentThrottle;
+	void DriveTrack(float CurrentThrottle);
+	TArray<USceneComponent*> GetWheels();
+
 };

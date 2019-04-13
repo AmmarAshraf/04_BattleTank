@@ -8,7 +8,7 @@ UTankTracks::UTankTracks() {
 
 void UTankTracks::BeginPlay()
 {
-	OnComponentHit.AddDynamic(this, &UTankTracks::OnCompHit);
+
 }
 
 void UTankTracks::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) {
@@ -18,37 +18,41 @@ void UTankTracks::TickComponent(float DeltaTime, ELevelTick TickType, FActorComp
 
 void UTankTracks::setThrottle(float value) {
 
-	CurrentThrottle = FMath::Clamp<float>(CurrentThrottle + value, -1, 1);
-
+	//CurrentThrottle = FMath::Clamp<float>(CurrentThrottle + value, -1, 1);
+	DriveTrack(value);
 }
 
-void UTankTracks::OnCompHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit) {
-
-
-	DriveTrack();
-	ApplySlipeSideWays();
-	CurrentThrottle = 0;
-
-}
-
-void UTankTracks::ApplySlipeSideWays() {
-	auto SlipperySpeed = FVector::DotProduct(GetRightVector(), GetComponentVelocity());
-	auto DeltaTime = GetWorld()->GetDeltaSeconds();
-	auto CorrectionAcceleration = -SlipperySpeed / DeltaTime * GetRightVector();
-
-	auto TankRoot = Cast<UStaticMeshComponent>(GetOwner()->GetRootComponent());
-	auto CorrectionForce = (TankRoot->GetMass()*CorrectionAcceleration) / 2;
-	TankRoot->AddForce(CorrectionForce);
-	//UE_LOG(LogTemp, Warning, TEXT("Correction force %s"), *CorrectionForce.ToString())
-}
-
-void UTankTracks::DriveTrack() {
+void UTankTracks::DriveTrack(float CurrentThrottle) {
 	if (CurrentThrottle == 0)
 		return;
 
-	auto forceVector = GetForwardVector()*CurrentThrottle*TracksMaxDrivingForce;
+	auto forceVector = CurrentThrottle*TracksMaxDrivingForce;
 
-	auto ComponentLocation = GetComponentLocation();
+	FVector forwardVector = FVector(forceVector, 0,0);
+	UE_LOG(LogTemp, Warning, TEXT("# of wheels %i"), GetWheels().Num())
+	for (auto wheel:GetWheels()) {
 
-	Cast<UPrimitiveComponent>(GetOwner()->GetRootComponent())->AddForceAtLocation(forceVector, ComponentLocation);
+		USpawnPoint* spawnPoint= Cast<USpawnPoint>(wheel);
+	
+		if (spawnPoint != nullptr) {
+			ASprungWheel* sprungWheel= spawnPoint->GetSprungWheel();
+
+		
+			sprungWheel->GetWheel()->AddForce(forwardVector, NAME_None);
+		
+			
+			
+		}
+	}
+
+}
+
+TArray<USceneComponent*> UTankTracks::GetWheels() {
+	
+	 TArray<USceneComponent*> comp;
+
+	 GetChildrenComponents(true, comp);
+
+	return comp;
+
 }
