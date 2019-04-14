@@ -28,6 +28,7 @@ private:
 	virtual void Tick(float DeltaTime) override;
 	UPROPERTY(EditAnyWhere)
 	float AcceptanceRadius = 80000;
+	UFUNCTION()
 	void OnTankDeath();
 
 };

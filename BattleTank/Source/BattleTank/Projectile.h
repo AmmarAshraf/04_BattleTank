@@ -34,12 +34,14 @@ public:
 	UPROPERTY(VisibleAnywhere)
 		URadialForceComponent* RadialForce = nullptr;
 	float ProjectileDamage = 20.0f;
-
+	UPROPERTY(VisibleAnywhere)
+	float ProjectileCleanUpDelay = 0.1f;
 
 	void LaunchProjectile(float Speed);
 
 	void OnTimeExpired();
 
+	UFUNCTION(BlueprintCallable)
 		void OnCompHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 
 

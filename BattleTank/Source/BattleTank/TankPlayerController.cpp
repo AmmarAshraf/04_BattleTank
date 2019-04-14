@@ -16,6 +16,7 @@ void ATankPlayerController::BeginPlay()
 	else
 	UE_LOG(LogTemp, Warning, TEXT("Aiming component not found"))
 
+	UE_LOG(LogTemp, Warning, TEXT("Contoller intialized"))
 
 }
 
@@ -107,6 +108,7 @@ bool ATankPlayerController::GetVectorHitLocation(FVector LookDirection, FHitResu
 
 void ATankPlayerController::SetPawn(APawn* InPawn) {
 	Super::SetPawn(InPawn);
+	UE_LOG(LogTemp, Warning, TEXT("Pawn set"))
 	if (InPawn) {
 
 		auto possesedTank = Cast<ATank>(InPawn);
@@ -117,9 +119,12 @@ void ATankPlayerController::SetPawn(APawn* InPawn) {
 		else {
 			//subscribe
 			possesedTank->fTankDelegate.AddUniqueDynamic(this, &ATankPlayerController::OnTankDeath);
-
+			UE_LOG(LogTemp, Warning, TEXT("Pawn subscribed"))
 		}
 
+	}
+	else {
+		UE_LOG(LogTemp, Warning, TEXT("Pawn not set"))
 	}
 }
 

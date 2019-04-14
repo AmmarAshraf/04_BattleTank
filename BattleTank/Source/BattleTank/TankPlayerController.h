@@ -40,7 +40,7 @@ public:
 
 	bool GetVectorHitLocation(FVector LookDirection, FHitResult hitresult);
 
-	
+	UFUNCTION()
 	void OnTankDeath();
 
 	

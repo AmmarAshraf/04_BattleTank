@@ -32,7 +32,7 @@ void AProjectile::BeginPlay()
 {
 	Super::BeginPlay();
 	staticMeshComponent->OnComponentHit.AddDynamic(this, &AProjectile::OnCompHit);
-
+	staticMeshComponent->SetNotifyRigidBodyCollision(true);
 }
 
 // Called every frame
@@ -51,7 +51,6 @@ void AProjectile::LaunchProjectile(float Speed)
 }
 
 void AProjectile::OnCompHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit) {
-
 	LaunchBlast->Deactivate();
 	ImpactBlast->Activate();
 	
@@ -59,7 +58,9 @@ void AProjectile::OnCompHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UP
 
 	FTimerHandle Timer;
 
-	GetWorld()->GetTimerManager().SetTimer(Timer,this, &AProjectile::OnTimeExpired,10.f,false);
+	GetWorld()->GetTimerManager().SetTimer(Timer,this, &AProjectile::OnTimeExpired, ProjectileCleanUpDelay,false);
+
+	
 
 	UGameplayStatics::ApplyRadialDamage(this, ProjectileDamage, staticMeshComponent->GetComponentLocation(), RadialForce->Radius,
 		UDamageType::StaticClass(), TArray<AActor*>());
