@@ -51,6 +51,8 @@ void AProjectile::LaunchProjectile(float Speed)
 }
 
 void AProjectile::OnCompHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit) {
+	
+	//UE_LOG(LogTemp, Warning, TEXT("Hi Actor Name %s"), *Hit.GetActor()->GetName())
 	LaunchBlast->Deactivate();
 	ImpactBlast->Activate();
 	

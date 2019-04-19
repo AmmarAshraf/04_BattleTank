@@ -15,7 +15,7 @@ ATankAIController::ATankAIController()
 void ATankAIController::BeginPlay()
 {
 	Super::BeginPlay();
-
+	UE_LOG(LogTemp, Warning, TEXT("AI intialized"))
 
 }
 
@@ -28,7 +28,9 @@ void ATankAIController::Tick(float DeltaTime)
 	auto PlayerTank = GetWorld()->GetFirstPlayerController()->GetPawn();
 	auto ControlledTank = GetPawn();
 
-	if (!(PlayerTank && ControlledTank)) { return; }
+	if (!(PlayerTank && ControlledTank)) { return;
+	UE_LOG(LogTemp, Warning, TEXT("No player and controlled tank"))
+	}
 
 	// Move towards the player
 	MoveToActor(PlayerTank, AcceptanceRadius); // TODO check radius is in cm
@@ -49,6 +51,9 @@ void ATankAIController::Tick(float DeltaTime)
 	
 		 AimingComponent->Fire();
 	
+	}
+	else {
+		UE_LOG(LogTemp, Warning, TEXT("Opponent aim failed"))
 	}
 
 

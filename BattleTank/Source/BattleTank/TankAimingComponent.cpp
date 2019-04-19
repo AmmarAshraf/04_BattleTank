@@ -47,7 +47,7 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 		LoadStates = ELoadStates::VE_LOCKED;
 	}
 
-	//UE_LOG(LogTemp, Warning, TEXT("delay %f"), (FPlatformTime::Seconds() - lastTime))
+	
 	
 }
 
